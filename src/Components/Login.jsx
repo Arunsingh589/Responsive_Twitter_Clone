@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaDove } from 'react-icons/fa';
+import { FaDove, FaTwitter } from 'react-icons/fa';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -34,23 +34,28 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-[#f0f8fd] flex flex-col items-center">
       {/* Navbar */}
-      <nav className="w-full bg-white shadow-md py-6">
-        <ul className="max-w-6xl mx-auto flex items-center">
-          <li className="mr-4 flex items-center">
-            <FaDove className="text-[#1aa1f5] text-2xl" />
-            <Link to="/" className="text-lg font-semibold text-gray-700 hover:text-[#1aa1f5] hover:border-b-2 hover:border-b-[#1aa1f5] ml-2">Home</Link>
-          </li>
-          <li className="mr-4">
-            <Link to="/about" className="text-lg text-gray-700 hover:border-b-2 hover:border-b-[#1aa1f5] hover:text-[#1aa1f5]">About</Link>
-          </li>
-          <li className="ml-20 sm:ml-auto">
-            <p className="text-lg text-gray-700 hover:text-[#1aa1f5] hover:border-b-2 hover:border-b-[#1aa1f5]">Language: English</p>
-          </li>
-        </ul>
+      <nav className="bg-white shadow-sm w-full py-4 fixed top-0 left-0 z-10">
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <FaTwitter className="text-[#1aa1f5] text-2xl" />
+            <Link to="/" className="text-[#555] hover:text-[#1aa1f5] font-bold text-lg hover:border-b-2 border-[#1aa1f5]">Home</Link>
+            <Link to="/about" className="text-[#555] hover:text-[#1aa1f5] font-bold text-lg hover:border-b-2 border-[#1aa1f5]">About</Link>
+          </div>
+          <div className="relative cursor-pointer">
+            <select className="bg-white border hover:text-[#1aa1f5] text-[#555] hover:border-b-2 hover:border-b-[#1aa1f5]  border-[#ddd] rounded-md px-3 py-2 focus:outline-none">
+              <option value="en">English</option>
+              <option value="hi">Hindi</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+              {/* Add more languages as needed */}
+            </select>
+          </div>
+        </div>
       </nav>
 
       {/* Login Section */}
-      <div className="bg-white shadow-md w-full max-w-3xl mt-8 rounded-lg">
+      <div className="bg-white shadow-md w-full max-w-3xl mt-28 rounded-lg">
         <div className="p-4 sm:p-10">
           <h2 className="text-2xl font-bold mb-6 text-black">Log in to X</h2>
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}

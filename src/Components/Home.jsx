@@ -51,15 +51,15 @@ const Home = () => {
           <div className="flex flex-col items-start space-y-9">
             <div className="w-full flex items-center">
               <IoIosSearch className="text-[20px] md:text-[2.5rem] mr-4" />
-              <h3 className="text-[15px] md:text-[20px] font-bold">Find Your Interest</h3>
+              <h3 className="text-[12px] md:text-[20px] font-bold">Find Your Interest</h3>
             </div>
             <div className="w-full flex items-center">
               <FaUserFriends className="text-[20px] md:text-[2.5rem] mr-4" />
-              <h3 className="text-[15px] md:text-[20px] font-bold">Explore what people are talking about</h3>
+              <h3 className="text-[12px] md:text-[20px] font-bold">Explore what people are talking about</h3>
             </div>
             <div className="w-full flex items-center">
               <FaComment className="text-[20px] md:text-[2.5rem] mr-4" />
-              <h3 className="text-[15px] md:text-[20px] font-bold">Join the people</h3>
+              <h3 className="text-[12px] md:text-[20px] font-bold">Join the people</h3>
             </div>
           </div>
           <FaTwitter className="absolute top-4 left-4 text-white text-[20px] md:hidden" />
@@ -97,12 +97,12 @@ const Home = () => {
           </form>
           <div className=' justify-center text-center w-full mt-2 md:mt-48 '>
             <div className=' mt-8 md:mt-28 '>
-              <FaTwitter className=' text-[#1aa1f5] text-[30px] md:text-[50px] ml-36 md:ml-[278px] mb-4 ' />
+              <FaTwitter className=' text-[#1aa1f5] text-[30px] md:text-[50px] ml-20 md:ml-[278px] mb-4 ' />
               <h1 className='text-[20px] md:text-[30px] font-bold md:mb-6 leading-10'> Explore what's happening <span className=' flex flex-col text-[#1aa1f5] mr-32 md:mr-48 '> in the world.</span> </h1>
 
             </div>
             <div className=''>
-              <h4 className=' tex-[13px] md:text-[19px] mb-6 font-bold mr-40 md:mr-60'>Join X Today</h4>
+              <h4 className=' tex-[13px] md:text-[19px] mb-6 font-bold mr-36 md:mr-60'>Join X Today</h4>
               <Link to={'/signup'}>
                 <button className='bg-[#1aa1f5] text-white w-[30%] md:w-[60%] py-2 mr-2 md:mr-0 rounded-3xl font-bold text-[15px] mb-2 hover:bg-[#0d8ae7] transition-transform'>Sign Up</button>
 
@@ -120,16 +120,16 @@ const Home = () => {
       <div className="bg-[#f5f4f5] text-[#444] w-full border-t-2 border-[#ddd] flex items-center justify-center py-4">
         <div className="flex flex-wrap justify-center items-center gap-4">
           <Link to={'/about'} className="mx-2">About</Link>
-          <p className="mx-2">Blog</p>
-          <p className="mx-2">Help</p>
-          <p className="mx-2">Terms</p>
-          <p className="mx-2">Apps</p>
+          <p className="mx-2 hidden md:block">Blog</p>
+          <p className="mx-2 hidden md:block">Help</p>
+          <p className="mx-2 hidden md:block">Terms</p>
+          <p className="mx-2 hidden md:block">Apps</p>
           <p className="mx-2">Settings</p>
-          <p className="mx-2">Contact</p>
-          <p className="mx-2">Status</p>
+          <p className="mx-2 hidden md:block">Contact</p>
+          <p className="mx-2 hidden md:block">Status</p>
           <p className="mx-2">Privacy Policy</p>
-          <p className="mx-2">Brand</p>
-          <p className="mx-2">Developer</p>
+          <p className="mx-2 hidden md:block">Brand</p>
+          <p className="mx-2 hidden md:block">Developer</p>
           <p className="mx-2">&copy; 2024 X</p>
         </div>
       </div>

@@ -111,12 +111,12 @@ const Main = () => {
                 placeholder="Search X"
                 className="w-48 lg:w-80 h-8 lg:h-10 border dark:text-gray-300  text-[#9a9a9a] placeholder:text-[12px] md:placeholder:text-[15px] dark:bg-gray-800 rounded-full bg-[#d6e1e9] gap-2 pl-10 transition-all dark:focus:bg-gray-600 focus:bg-white focus:border-[#1aa1f5]"
               />
-              <div className="flex items-center cursor-pointer mt-0  lg:mt-0 relative ml-8 lg:ml-8">
+              <div className="flex items-center cursor-pointer mt-0  lg:mt-0 relative ml-4 lg:ml-8">
                 <div className="w-8 h-8 md:w-12 md:h-12">
                   <img src="user1.jpg" alt="User" className="w-full h-full object-cover rounded-full" />
                 </div>
-                <p className="ml-2 md:ml-4 text-sm md:text-lg text-gray-800 dark:text-gray-300">Arun Singh</p>
-                <div onClick={toggleMenu} className="mr-4 md:mr-0 md:ml-2 text-xl text-gray-800 cursor-pointer dark:text-gray-300">
+                <p className="ml-2 md:ml-4 text-sm md:text-lg text-gray-800 font-bold md:font-semibold dark:text-gray-300">Arun Singh</p>
+                <div onClick={toggleMenu} className="mr-4 md:mr-0 md:ml-2 text-xl font-bold md:font-semibold text-gray-800 cursor-pointer dark:text-gray-300">
                   <FaChevronDown />
                 </div>
               </div>
@@ -137,16 +137,16 @@ const Main = () => {
 
             {/* Top Section before post */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mt-6 md:mt-0 mb-4">
-              <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-6 mb-4">
+              <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-4 md:pb-6 mb-4">
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-300">Home</h2>
                 <FaRegStar className='text-2xl text-[#1aa1f5]' />
               </div>
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16">
-                  <img src="user1.jpg" alt="User" className="w-full h-full object-cover rounded-full" />
+                  <img src="user1.jpg" alt="User" className="md:w-full md:h-full mt-3 md:mt-0 object-cover rounded-full" />
                 </div>
                 <div className="flex-grow">
-                  <input type="text" placeholder="What's happening?" className="w-full h-10 border dark:text-gray-300 text-[#9a9a9a] dark:bg-gray-800 bg-[#d6e1e9] pl-3 md:pl-4 placeholder:text-[12px] md:placeholder:text-15px] rounded-full transition-all dark:focus:bg-gray-600 focus:bg-white focus:border-[#1aa1f5]" />
+                  <input type="text" placeholder="What's happening?" className="w-full h-8 md:h-10 border dark:text-gray-300 text-[#9a9a9a] dark:bg-gray-800 bg-[#d6e1e9] pl-3 md:pl-4 placeholder:text-[10px] md:placeholder:text-15px] rounded-full transition-all dark:focus:bg-gray-600 focus:bg-white focus:border-[#1aa1f5]" />
                 </div>
                 <div className="flex items-center gap-4">
                   <FaImage className='text-2xl text-[#1aa1f5]' onClick={() => setShowModal(true)} />
@@ -237,8 +237,8 @@ const Main = () => {
       {/* Side Navbar */}
       {menuVisible && (
         <>
-          <div className="fixed inset-0 bg-black opacity-50 z-10" onClick={toggleMenu}></div>
-          <div ref={menuRef} className="fixed right-0 top-0 h-full w-full md:w-1/4 dark:bg-gray-800 bg-white border-l shadow-sm transition-right duration-500 ease-in-out z-20">
+          <div className="fixed inset-0 bg-black opacity-50 z-10 " onClick={toggleMenu}></div>
+          <div ref={menuRef} className="fixed right-0 top-0 h-full w-full md:w-1/4 dark:bg-gray-800 bg-white border-l shadow-sm transition-right duration-500 ease-in-out z-20 overflow-y-auto">
             <div className="p-6 border-b border-[#eee] dark:border-gray-700 flex justify-between items-center">
               <h2 className="text-lg font-bold text-black dark:text-gray-300">Account Info</h2>
               <FaTimes className="text-2xl font-bold cursor-pointer text-[#1aa1f5]" onClick={toggleMenu} />

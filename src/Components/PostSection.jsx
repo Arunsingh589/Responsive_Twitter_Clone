@@ -107,8 +107,8 @@ const PostSection = ({ showModal, setShowModal, addPost, posts }) => {
          
         </div>
         {imagePreview && (
-          <div className="p-8">
-            <img src={imagePreview} alt="Preview" className="image-container w-1/2 md:w-1/3 h-32 md:h-44 rounded-md" />
+          <div className="p-4 md:p-8 max-h-44 overflow-y-auto">
+            <img src={imagePreview} alt="Preview" className="image-container w-1/4 md:w-1/3 h-16 md:h-28 rounded-md" />
           </div>
         )}
         <div className="p-4 flex items-center border-t border-gray-200 dark:border-gray-700">
