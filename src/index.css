@@ -108,3 +108,30 @@ body::-webkit-scrollbar{
 .follow-section-exit-active {
   transform: translateY(100%);
 }
+
+
+/* App.css */
+
+.like-icon {
+  transition: color 0.3s ease-in-out;
+}
+
+.like-icon:active {
+  animation: pop 0.3s ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+
+

@@ -73,9 +73,9 @@ const SuggestionSection = ({ setFollowingCount }) => {
       </div>
       <div className="follow-footer hidden md:block dark:bg-gray-800 mt-1">
         <div className="text-gray-400 dark:text-gray-300 flex flex-wrap gap-[26px] ml-1">
-          <h3 className="hover:underline">Terms</h3>
-          <h3 className="hover:underline">Privacy policy</h3>
-          <h3 className="hover:underline">Cookies</h3>
+          <Link to={'/terms'} className="hover:underline">Terms</Link>
+          <Link to={'/privacy'} className="hover:underline">Privacy policy</Link>
+          <Link to={'/settings'} className="hover:underline">Settings</Link>
           <Link to={'/about'} className="hover:underline">About</Link>
           <h3 className="hover:underline">More</h3>
         </div>

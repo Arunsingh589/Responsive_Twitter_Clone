@@ -19,6 +19,8 @@ import JobSearch from "./Hero/Jobs"
 import Message from "./Hero/Message"
 import Notification from "./Hero/Notification"
 import Grok from "./Hero/Grok"
+import TermsAndConditions from "./Hero/TermsAndConditions"
+import PrivacyPolicy from "./Hero/PrivacyPolicy"
 
 function App() {
 
@@ -48,6 +50,10 @@ function App() {
         <Route path="/message" element={<Message/>} />
         <Route path="/notification" element={<Notification/>} />
         <Route path="/grok" element={<Grok/>} />
+        <Route path="/terms" element={<TermsAndConditions/>} />
+        <Route path="/privacy" element={<PrivacyPolicy/>} />
+
+        
 
 
 

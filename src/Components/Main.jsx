@@ -80,8 +80,21 @@ const Main = () => {
     setPosts([post, ...posts]);
   };
 
+
+  const handleLike = (index) => {
+    const updatedPosts = [...post];
+    updatedPosts[index].liked = !updatedPosts[index].liked;
+    setPost(updatedPosts);
+  };
+
+  const handleLikes = (index) => {
+    const updatedPosts = [...posts];
+    updatedPosts[index].liked = !updatedPosts[index].liked;
+    setPosts(updatedPosts);
+  };
+
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark' : ''}`} style={{ backgroundColor: darkMode ? '#10171e' : '#d6e1e9' }}>
+    <div className={`min-h-screen md:h-screen ${darkMode ? 'dark' : ''}`} style={{ backgroundColor: darkMode ? '#10171e' : '#d6e1e9' }}>
 
       {/* Nav section */}
       <nav className="fixed w-full h-24 lg:h-20 bg-white dark:bg-white flex flex-col lg:flex-row justify-center shadow-sm top-0 left-0 z-10">
@@ -98,8 +111,8 @@ const Main = () => {
             <Link to="/message">
               <FaRegEnvelope className="text-3xl text-gray-400 hidden lg:block dark:text-gray-300 hover:text-[#1aa1f5]" />
             </Link>
-           
-            </div>
+
+          </div>
 
           <div className="flex flex-col lg:flex-row justify-between items-center w-auto lg:w-auto  mt-2 lg:mt-0 lg:ml-8">
             <div className="relative flex items-center w-full ml-8 md:ml-0 pb-4 md:pb-0 lg:w-auto lg:mr-8 mt-2 lg:mt-0">
@@ -115,8 +128,8 @@ const Main = () => {
                 <div className="w-8 h-8 md:w-12 md:h-12">
                   <img src="user1.jpg" alt="User" className="w-full h-full object-cover rounded-full" />
                 </div>
-                <p className="ml-2 md:ml-4 text-sm md:text-lg text-gray-800 font-bold md:font-semibold dark:text-gray-300">Arun Singh</p>
-                <div onClick={toggleMenu} className="mr-4 md:mr-0 md:ml-2 text-xl font-bold md:font-semibold text-gray-800 cursor-pointer dark:text-gray-300">
+                <p className="ml-2 md:ml-4 text-sm md:text-lg text-gray-800 font-bold  dark:text-gray-300">Arun Singh</p>
+                <div onClick={toggleMenu} className="mr-4 md:mr-0 md:ml-2 text-xl font-bold  text-gray-800 cursor-pointer dark:text-gray-300">
                   <FaChevronDown />
                 </div>
               </div>
@@ -148,7 +161,7 @@ const Main = () => {
                 <div className="flex-grow">
                   <input type="text" placeholder="What's happening?" className="w-full h-8 md:h-10 border dark:text-gray-300 text-[#9a9a9a] dark:bg-gray-800 bg-[#d6e1e9] pl-3 md:pl-4 placeholder:text-[10px] md:placeholder:text-15px] rounded-full transition-all dark:focus:bg-gray-600 focus:bg-white focus:border-[#1aa1f5]" />
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 cursor-pointer">
                   <FaImage className='text-2xl text-[#1aa1f5]' onClick={() => setShowModal(true)} />
                   <FaCamera className='text-2xl text-[#1aa1f5]' />
                   <FaChartBar className='text-2xl text-[#1aa1f5]' />
@@ -175,12 +188,14 @@ const Main = () => {
                       <img src={post.image} alt="Post" className=" rounded-lg mb-4" style={{ width: '100%' }} />
                     </div>
                   )}
-                  <div className="flex gap-20 text-gray-600 dark:text-gray-400">
-                    <FaThumbsUp className="cursor-pointer" />
-                    <FaShare className="cursor-pointer" />
-                    <FaRetweet className='cursor-pointer ' />
-                    <FaComment className="cursor-pointer" />
-                  </div>
+                   <div className="flex gap-20 text-gray-600 dark:text-gray-400 cursor-pointer">
+                  <FaThumbsUp onClick={() => handleLikes(index)} className={`text-2xl ${post.liked ? 'text-blue-500' : 'text-gray-500'} like-icon`} />
+                  <FaComment className="text-2xl text-gray-500" />
+                  <FaShare className="text-2xl text-gray-500" />
+                  <FaBookmark className="text-2xl text-gray-500" />
+
+
+                </div>
                 </div>
               ))}
             </div>
@@ -200,12 +215,13 @@ const Main = () => {
                     <img src={post.image} alt="Post" className="rounded-lg" style={{ width: '100%' }} />
                   </div>
                 )}
-                <div className="flex gap-20 text-gray-600 dark:text-gray-400">
-                  <FaThumbsUp className="cursor-pointer" />
-                  <FaShare className="cursor-pointer" />
-                  <FaRetweet className='cursor-pointer ' />
+                <div className="flex gap-20 text-gray-600 dark:text-gray-400 cursor-pointer">
+                  <FaThumbsUp onClick={() => handleLike(index)} className={`text-2xl ${post.liked ? 'text-blue-500' : 'text-gray-500'} like-icon`} />
+                  <FaComment className="text-2xl text-gray-500" />
+                  <FaShare className="text-2xl text-gray-500" />
+                  <FaBookmark className="text-2xl text-gray-500" />
 
-                  <FaComment className="cursor-pointer" />
+
                 </div>
               </div>
             ))}
