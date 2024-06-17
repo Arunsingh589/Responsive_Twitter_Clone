@@ -17,7 +17,7 @@ const Grok = () => {
         <div className="flex flex-col items-center mt-8 lg:mt-16">
           <div className="flex items-center mb-4">
             <img
-              src="https://via.placeholder.com/50"
+              src="lotus.webp"
               alt="User"
               className="rounded-full w-12 h-12 mr-2 md:mr-4"
             />

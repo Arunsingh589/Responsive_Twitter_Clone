@@ -11,6 +11,9 @@ import PostSection from './PostSection';
 import SuggestionSection from './SuggestionSection';
 import { Link } from 'react-router-dom';
 import FollowSection from './FollowSection';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Main = () => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -19,6 +22,9 @@ const Main = () => {
   const [showModal, setShowModal] = useState(false);
   const [newPostContent, setNewPostContent] = useState('');
   const [showFollowSection, setShowFollowSection] = useState(false);
+  const [currentComment, setCurrentComment] = useState('');
+  const [commentInputs, setCommentInputs] = useState({});
+
   const [post, setPost] = useState([
     {
       user: {
@@ -27,7 +33,10 @@ const Main = () => {
         avatar: "user4.png"
       },
       text: "Hello, this is John Doe's post!",
-      image: "1.jpeg"
+      image: "1.jpeg",
+      liked: false,
+      bookmarked: false,
+      comments: []
     },
     {
       user: {
@@ -36,7 +45,10 @@ const Main = () => {
         avatar: "user6.png"
       },
       text: "Coding Time",
-      image: "post2.png"
+      image: "post2.png",
+      liked: false,
+      bookmarked: false,
+      comments: []
     },
     {
       user: {
@@ -45,7 +57,10 @@ const Main = () => {
         avatar: "user7.png"
       },
       text: "Check out this cool photo!",
-      image: "2.jpeg"
+      image: "2.jpeg",
+      liked: false,
+      bookmarked: false,
+      comments: []
     }
   ]);
   const menuRef = useRef(null);
@@ -93,8 +108,65 @@ const Main = () => {
     setPosts(updatedPosts);
   };
 
+  const handleBookmark = (index) => {
+    const updatedPosts = [...post];
+    updatedPosts[index].bookmarked = !updatedPosts[index].bookmarked;
+    setPost(updatedPosts);
+
+    // Show toast notification
+    if (updatedPosts[index].bookmarked) {
+      toast.success('Image bookmarked!');
+    } else {
+      toast.info('Bookmark removed');
+    }
+  };
+
+  const handleComment = (index) => {
+    const updatedPosts = [...post];
+    updatedPosts[index].comments.push(currentComment);
+    setPost(updatedPosts);
+    setCurrentComment('');
+  };
+
+  // const handleComments = (index) => {
+  //   const updatedPosts = [...posts];
+  //   updatedPosts[index].comments.push(currentComment);
+  //   setPosts(updatedPosts);
+  //   setCurrentComment('');
+  // };
+
+  const handleComments = (index) => {
+    const updatedPosts = [...posts];
+    const comment = commentInputs[index] || ''; // Get the comment from the specific input
+    if (comment.trim()) {
+      if (!updatedPosts[index].comments) {
+        updatedPosts[index].comments = [];
+      }
+      updatedPosts[index].comments.push(comment);
+      setPosts(updatedPosts);
+      setCommentInputs({ ...commentInputs, [index]: '' }); // Clear the specific comment input
+    }
+  };
+
+  const handleCommentInputChange = (index, value) => {
+    setCommentInputs({ ...commentInputs, [index]: value });
+  };
+
+  // // Sample post addition for demonstration
+  // const addSamplePost = () => {
+  //   const newPost = {
+  //     text: "New post",
+  //     image: "post.jpg",
+  //     liked: false,
+  //     comments: []
+  //   };
+  //   setPosts([...posts, newPost]);
+  // };
+
+
   return (
     <div className={`min-h-screen md:h-screen ${darkMode ? 'dark' : ''}`} style={{ backgroundColor: darkMode ? '#10171e' : '#d6e1e9' }}>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
 
       {/* Nav section */}
       <nav className="fixed w-full h-24 lg:h-20 bg-white dark:bg-white flex flex-col lg:flex-row justify-center shadow-sm top-0 left-0 z-10">
@@ -138,7 +210,7 @@ const Main = () => {
         </div>
       </nav>
 
-      {/* Post section */}
+      {/* Post section of all */}
       <main className="mt-20 mb-16 p-4  flex justify-center" style={{ backgroundColor: darkMode ? '#10171e' : '#d6e1e9' }}>
         <div className="flex flex-col lg:flex-row w-full max-w-screen-xl">
           <div className="w-full lg:w-2/3 lg:pr-8">
@@ -169,59 +241,133 @@ const Main = () => {
               </div>
             </div>
 
-            {/* Post */}
+            {/* Posts */}
             <div>
-              {posts.map((post, index) => (
-                <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-4">
-                  <div className="flex items-center mb-4">
-                    <img src="user1.jpg" alt="User" className="w-12 h-12 rounded-full mr-4" />
-                    <div>
-                      <p className="font-bold text-gray-800 dark:text-gray-300 flex gap-2 items-center ">Arun Singh <FaCheckCircle className='text-[#1aa1f5]' /></p>
-
-                      <p className="text-gray-600 dark:text-gray-300">@thakur_589</p>
-                    </div>
-                  </div>
-
-                  {post.text && <p className="text-gray-800 dark:text-gray-300 mb-4">{post.text}</p>}
-                  {post.image && (
-                    <div className="image-container">
-                      <img src={post.image} alt="Post" className=" rounded-lg mb-4" style={{ width: '100%' }} />
-                    </div>
-                  )}
-                   <div className="flex gap-20 text-gray-600 dark:text-gray-400 cursor-pointer">
-                  <FaThumbsUp onClick={() => handleLikes(index)} className={`text-2xl ${post.liked ? 'text-blue-500' : 'text-gray-500'} like-icon`} />
-                  <FaComment className="text-2xl text-gray-500" />
-                  <FaShare className="text-2xl text-gray-500" />
-                  <FaBookmark className="text-2xl text-gray-500" />
-
-
+            {posts.map((post, index) => (
+        <div key={index}>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <img src="user1.jpg" alt="User" className="w-12 h-12 object-cover rounded-full" />
+                <div>
+                  <p className="font-bold text-gray-800 dark:text-gray-300 flex gap-2 items-center ">Arun Singh <FaCheckCircle className='text-[#1aa1f5]' /></p>
+                  <p className="text-gray-600 dark:text-gray-300">@thakur_589</p>
                 </div>
-                </div>
-              ))}
+              </div>
             </div>
 
+            {post.text && <p className="text-gray-800 dark:text-gray-300 mt-4">{post.text}</p>}
+            {post.image && (
+              <div className="image-container">
+                <img src={post.image} alt="Post" className="rounded-lg mt-4" style={{ width: '100%' }} />
+              </div>
+            )}
+            <div className="flex items-center justify-between mt-4">
+              <div className="flex gap-10 md:gap-20 text-gray-600 dark:text-gray-400 cursor-pointer">
+                <FaThumbsUp onClick={() => handleLikes(index)} className={`text-2xl ${post.liked ? 'text-blue-500' : 'text-gray-500'} like-icon`} />
+                <FaComment className="text-2xl text-gray-500" />
+                <FaShare className="text-2xl text-gray-500" />
+                <FaBookmark onClick={() => handleBookmark(index)} className="text-2xl text-gray-500" />
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="flex items-center gap-4">
+                <input
+                  type="text"
+                  placeholder="Add a comment..."
+                  value={commentInputs[index] || ''}
+                  onChange={(e) => handleCommentInputChange(index, e.target.value)}
+                  className="w-full h-10 px-4 border border-gray-200 dark:border-gray-700 rounded-full text-lg dark:bg-gray-800 dark:text-gray-300 focus:outline-none"
+                />
+                <button
+                  className="bg-[#1aa1f5] text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-600"
+                  onClick={() => handleComments(index)}
+                >
+                  Comment
+                </button>
+              </div>
+              {post.comments && post.comments.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-300">Comments:</h4>
+                  <ul className="mt-2 space-y-2">
+                    {post.comments.map((comment, i) => (
+                      <li key={i} className="flex items-start gap-4">
+                        <div className="w-8 h-8">
+                          <img src="user1.jpg" alt="User" className="w-full h-full object-cover rounded-full" />
+                        </div>
+                        <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-full">
+                          <p className="text-sm text-gray-800 dark:text-gray-300">{comment}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>            
+
+            {/* Posts */}
             {post.map((post, index) => (
-              <div key={index} className="bg-white  dark:bg-gray-800 p-6 rounded-lg shadow-md mb-4">
-                <div className="flex items-center mb-4">
-                  <img src={post.user.avatar} alt="User" className="w-12 h-12 rounded-full mr-4" />
-                  <div>
-                    <p className="font-bold text-gray-800 dark:text-gray-300 flex gap-2 items-center">{post.user.name}  <FaCheckCircle className='text-[#1aa1f5]' /></p>
-                    <p className="text-gray-600 dark:text-gray-400">{post.user.username}</p>
+              <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mt-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12">
+                      <img src={post.user.avatar} alt="User" className="w-full h-full object-cover rounded-full" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-800 dark:text-gray-300">{post.user.name}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{post.user.username}</p>
+                    </div>
+                  </div>
+
+                </div>
+                <p className="mt-4 text-gray-800 dark:text-gray-300">{post.text}</p>
+                {post.image && <img src={post.image} alt="Post" className="mt-4 w-full h-auto rounded-lg" />}
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex gap-10 md:gap-20 text-gray-600 dark:text-gray-400 cursor-pointer">
+                    <FaThumbsUp onClick={() => handleLike(index)} className={`text-2xl ${post.liked ? 'text-blue-500' : 'text-gray-500'} like-icon`} />
+                    <FaComment className="text-2xl text-gray-500" />
+                    <FaShare className="text-2xl text-gray-500" />
+                    <FaBookmark onClick={() => handleBookmark(index)} className="text-2xl text-gray-500" />
+
                   </div>
                 </div>
-                {post.text && <p className="text-gray-800 dark:text-gray-300 mb-4">{post.text}</p>}
-                {post.image && (
-                  <div className="flex justify-center mb-4">
-                    <img src={post.image} alt="Post" className="rounded-lg" style={{ width: '100%' }} />
+                <div className="mt-4">
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="text"
+                      placeholder="Add a comment..."
+                      value={currentComment}
+                      onChange={(e) => setCurrentComment(e.target.value)}
+                      className="w-full h-10 px-4 border border-gray-200 dark:border-gray-700 rounded-full text-lg dark:bg-gray-800 dark:text-gray-300 focus:outline-none"
+                    />
+                    <button
+                      className="bg-[#1aa1f5] text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-600"
+                      onClick={() => handleComment(index)}
+                    >
+                      Comment
+                    </button>
                   </div>
-                )}
-                <div className="flex gap-20 text-gray-600 dark:text-gray-400 cursor-pointer">
-                  <FaThumbsUp onClick={() => handleLike(index)} className={`text-2xl ${post.liked ? 'text-blue-500' : 'text-gray-500'} like-icon`} />
-                  <FaComment className="text-2xl text-gray-500" />
-                  <FaShare className="text-2xl text-gray-500" />
-                  <FaBookmark className="text-2xl text-gray-500" />
-
-
+                  {post.comments.length > 0 && (
+                    <div className="mt-4">
+                      <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-300">Comments:</h4>
+                      <ul className="mt-2 space-y-2">
+                        {post.comments.map((comment, i) => (
+                          <li key={i} className="flex items-start gap-4">
+                            <div className="w-8 h-8">
+                              <img src="user1.jpg" alt="User" className="w-full h-full object-cover rounded-full" />
+                            </div>
+                            <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-full">
+                              <p className="text-sm text-gray-800 dark:text-gray-300">{comment}</p>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -309,3 +455,29 @@ const Main = () => {
 };
 
 export default Main;
+
+// {post.map((post, index) => (
+//   <div key={index} className="bg-white  dark:bg-gray-800 p-6 rounded-lg shadow-md mb-4">
+//     <div className="flex items-center mb-4">
+//       <img src={post.user.avatar} alt="User" className="w-12 h-12 rounded-full mr-4" />
+//       <div>
+//         <p className="font-bold text-gray-800 dark:text-gray-300 flex gap-2 items-center">{post.user.name}  <FaCheckCircle className='text-[#1aa1f5]' /></p>
+//         <p className="text-gray-600 dark:text-gray-400">{post.user.username}</p>
+//       </div>
+//     </div>
+//     {post.text && <p className="text-gray-800 dark:text-gray-300 mb-4">{post.text}</p>}
+//     {post.image && (
+//       <div className="flex justify-center mb-4">
+//         <img src={post.image} alt="Post" className="rounded-lg" style={{ width: '100%' }} />
+//       </div>
+//     )}
+//     <div className="flex gap-20 text-gray-600 dark:text-gray-400 cursor-pointer">
+//       <FaThumbsUp onClick={() => handleLike(index)} className={`text-2xl ${post.liked ? 'text-blue-500' : 'text-gray-500'} like-icon`} />
+//       <FaComment className="text-2xl text-gray-500" />
+//       <FaShare className="text-2xl text-gray-500" />
+//       <FaBookmark className="text-2xl text-gray-500" />
+
+
+//     </div>
+//   </div>
+// ))}
